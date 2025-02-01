@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public static GameData gameData; // this should be the current state of the game
     // can be updated by other scripts (e.g. DayProgession should update this when the day ends)
 
-    void Start()
+    void Awake()
     {
         gameData = GameSaveSystem.loadGameData(); // load current game state
     }

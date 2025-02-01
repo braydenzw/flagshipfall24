@@ -13,18 +13,18 @@ using System;
 public class CharacterAttributes {
     // TODO: impleemnt some progression system
     private int xp;
-    private int lvl;
+    public int lvl;
 
     // pizza attributes
-    private int toss;
-    private int top;
-    private int ovens;
-    private int cut;
+    public int toss;
+    public int top;
+    public int ovens;
+    public int cut;
 
     // general attributes
-    private int charisma;
-    private int speed;
-    private int stamina;
+    public int charisma;
+    public int speed;
+    public int stamina;
 
     public CharacterAttributes(){
        // init to 0
@@ -50,8 +50,6 @@ public class CharacterAttributes {
 
         this.xp = xp;
     }
-
-    // TODO: add getters and setters
 
     // TODO: add some progression system on "lvl up"
 }

@@ -13,12 +13,13 @@ using UnityEngine;
 */
 
 public class PlayerStats {
-    private CharacterAttributes attr;
+    public CharacterAttributes attr;
 
     // TODO: create and manage game stats (profit, days played, etc)
 
     public PlayerStats() {
         // TODO: implement instantiation function
+        attr = new CharacterAttributes();
     }
 
     // TODO: create functions that can be used to update stored data

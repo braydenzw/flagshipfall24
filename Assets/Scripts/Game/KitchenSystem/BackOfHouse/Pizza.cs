@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 
@@ -16,6 +17,7 @@ using UnityEngine.Rendering;
 // Container to have consistent topping references
 public enum Topping {
     // TODO: create list of toppings
+    Pepperoni, Mushrooms, Sausage
 }
 
 public enum CutType {
@@ -26,15 +28,25 @@ public enum CutType {
 }
 
 public class Pizza {
-    private int id; // some identifier (unique!)
-    private float tossQuality;
-    private List<Topping> toppings; // some container for current toppings
-    private float cookLevel;
-    private float cutQuality;
-    private CutType cutType;
+    private string id; // unique identifier
+    public float tossQuality;
+    public List<Topping> toppings; // some container for current toppings
+    public float cookLevel; // 0-100 value [50 as extra light, 70 as light, 80 as normal, 90 as well done, 100 as extra well done]
+    public float cutQuality;
+    public CutType cutType;
 
+    // this instance function is for generating expected pizzas
+    public Pizza(float toss, List<Topping> top, float cook, float cut, CutType cutType){
+        tossQuality = toss;
+        toppings = top;
+        cookLevel = cook;
+        cutQuality = cut;
+        this.cutType = cutType;
+    }
+
+    // this is for generating a default pizza object through the toss mini-game
     public Pizza(float toss){
-        id = -1; // TODO: MAKE THIS UNIQUE and generate on init()
+        id = Guid.NewGuid().ToString();
         tossQuality = toss;
         toppings = null; // init to empty list
 
@@ -43,7 +55,7 @@ public class Pizza {
         cutQuality = 0;
         cutType = CutType.None; // un cut
     }
-
+    
     // TODO: some way to add toppings
     // TODO: some way to update cookLevel
     // TODO: some way to update cut quality

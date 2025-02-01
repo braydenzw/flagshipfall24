@@ -1,4 +1,6 @@
 using System;
+using Unity.VisualScripting;
+using UnityEngine;
 
 /*
 * This is a static class that should be used to manage the save file of the game
@@ -8,10 +10,10 @@ using System;
 
 
 // TODO: define save file system in project
- // probably look into Application.persistentDataPath
+// probably look into Application.persistentDataPath
 
 // TODO: decide if we care about encrypting our save data???
- // realistically it probably shouldn't be a priority to stop cheating
+// realistically it probably shouldn't be a priority to stop cheating
 public static class GameSaveSystem {
     private static GameData gameData;
     private static string currentSaveFile;
@@ -29,6 +31,11 @@ public static class GameSaveSystem {
 
     // just give whoever needs access access to this (may be null)
     public static GameData loadGameData(){
+        if(gameData == null){
+            Debug.LogWarning("Loaded game data was null");
+            gameData = new GameData(new PlayerStats(), new StaffData()); 
+        }
+
         return gameData;
     }
 

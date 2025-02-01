@@ -11,22 +11,48 @@ using UnityEngine;
 
 public class DayManager : MonoBehaviour
 {
-    private KitchenSystem kitchenSystem;
+    // data handlers
+    private StaffManager staffManager;
+    private OrderManager orderManager;
+    private Kitchen kitchen;
+    private int playerLvl;
 
     // TODO: create a bunch of timing vars
+    public float orderInterval = 60f; // base time at level 1
+    private float timer;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        // initialize the KitchenSystem object (using save state to initialize staff manager obj)
-        kitchenSystem = new KitchenSystem(GameManager.gameData.staffData);
+        if(GameManager.gameData.staffData != null) {
+            staffManager = new StaffManager(GameManager.gameData.staffData);
+        } else {
+            staffManager = new StaffManager(new StaffData());
+        }
+        orderManager = gameObject.AddComponent<OrderManager>();
+        kitchen = new Kitchen();
+
+        timer = 59f;
+        playerLvl = GameManager.gameData.playerStats.attr.lvl;
+        if(playerLvl == 0){
+            playerLvl = 1;
+        }
+        // orderInterval /= (playerLvl + 1f) / 2f; // TODO: decide on scaling
+        orderInterval = 10f;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // TODO: generate new orders on some interval
-            // using kitchenSystem.
+        // TODO: if we add some pause system, this needs to change
+        // generate new orders on some interval
+        if(timer >= orderInterval){
+            // TODO: should link to some real customer name or object?
+            orderManager.generateOrder(GameManager.gameData.playerStats, "Test Name");
+            timer = 0f;
+        } else {
+            timer += Time.deltaTime;
+        }
     }
 
     // TODO: some function to handle pizza object creation (in data)

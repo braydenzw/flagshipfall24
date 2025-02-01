@@ -1,19 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /*
-* This class facilitates player movement leveraging Unity's provided InputManager
+* Class handling keybinds and controls for the player character
 *
 * Contributors: Caleb Huerta-Henry
-* Last Updated: 10/3/2024
+* Last Updated: 11/24/2024
 */
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerControls : MonoBehaviour
 {
     public float speed = 3f;
+    public KeyCode orderUIKey = KeyCode.E;
 
     private Rigidbody2D rb;
+
+    // essentially local vars
     private float horizInput;
     private float vertInput;
 
@@ -27,7 +31,17 @@ public class PlayerMovement : MonoBehaviour
         // Gets horizontal and vertical input and moves the Player's Rigidbody component accordingly
         horizInput = Input.GetAxis("Horizontal");
         vertInput = Input.GetAxis("Vertical");
-
         rb.linearVelocity = new Vector2(horizInput * speed, vertInput * speed);
+
+        // toggle active order UI
+        if(Input.GetKeyDown(orderUIKey)){
+            var ui = GameObject.Find("UI");
+            if(ui != null){
+                var orderUI = ui.GetComponent<Transform>().GetChild(0).gameObject;
+                orderUI.SetActive(!orderUI.activeSelf);
+            } else {
+                Debug.LogWarning("Could not find OrderUI object");
+            }
+        }
     }
 }
