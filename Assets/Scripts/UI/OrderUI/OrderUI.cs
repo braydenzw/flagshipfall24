@@ -8,7 +8,7 @@ using UnityEngine.UI;
 * Script managing UI of particular order in order list. 
 *
 * Contributors: Caleb Huerta-Henry
-* Last Updated: Jan 26, 2025
+* Last Updated: Feb 1, 2025
 */
 
 // TODO: at some point, we will want to make this UI prettier

@@ -24,7 +24,7 @@ public class DayManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if(GameManager.gameData.staffData != null) {
+        if(GameManager.gameData != null && GameManager.gameData.staffData != null) {
             staffManager = new StaffManager(GameManager.gameData.staffData);
         } else {
             staffManager = new StaffManager(new StaffData());
@@ -37,8 +37,8 @@ public class DayManager : MonoBehaviour
         if(playerLvl == 0){
             playerLvl = 1;
         }
-        // orderInterval /= (playerLvl + 1f) / 2f; // TODO: decide on scaling
-        orderInterval = 10f;
+        orderInterval /= (playerLvl + 1f) / 2f; // TODO: decide on scaling
+        DontDestroyOnLoad(this); // TODO: remember to delete this after every game, but since we're working with different scenes it's necessary
     }
 
     // Update is called once per frame

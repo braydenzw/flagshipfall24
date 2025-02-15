@@ -6,7 +6,7 @@ using UnityEngine;
 * Class handling order UI updates/visuals (e.g. creates and manages UI objecs to be shown in list)
 *
 * Contributors: Caleb Huerta-Henry
-* Last Updated: Jan 26, 2025
+* Last Updated: Feb 1, 2025
 */
 
 public class OrderUIManager : MonoBehaviour

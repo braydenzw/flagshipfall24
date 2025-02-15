@@ -12,7 +12,7 @@ using UnityEngine;
 *  And should handle order submission
 *
 * Contributors: Caleb Huerta-Henry
-*  Last Updated: 11/24/2024
+*  Last Updated: 1 Feb 2025
 */
 
 public class Order {

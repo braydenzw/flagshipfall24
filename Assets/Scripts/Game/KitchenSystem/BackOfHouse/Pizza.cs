@@ -44,6 +44,10 @@ public class Pizza {
         this.cutType = cutType;
     }
 
+    public string getID(){
+        return id;
+    }
+
     // this is for generating a default pizza object through the toss mini-game
     public Pizza(float toss){
         id = Guid.NewGuid().ToString();
