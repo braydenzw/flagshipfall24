@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 67d2162609c4b4e239f845683ccd1380
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - resumeContainer: {instanceID: 0}
+  - resumePanelPrefab: {fileID: 8293751423497408701, guid: 29689d4bb0d0642b4ad0a3125a2e0a64, type: 3}
+  executionOrder: 80
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

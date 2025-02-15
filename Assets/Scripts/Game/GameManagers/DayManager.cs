@@ -12,6 +12,7 @@ using UnityEngine;
 public class DayManager : MonoBehaviour
 {
     private KitchenSystem kitchenSystem;
+    private bool isInitialized = false;
 
     // TODO: create a bunch of timing vars
 
@@ -19,14 +20,40 @@ public class DayManager : MonoBehaviour
     void Start()
     {
         // initialize the KitchenSystem object (using save state to initialize staff manager obj)
-        kitchenSystem = new KitchenSystem(GameManager.gameData.staffData);
+        //kitchenSystem = new KitchenSystem(GameManager.gameData.staffData);
+        //StaffManager.Instance.GenerateWeeklyHiringList(3);
+      
+            StartCoroutine(InitializeHiringPhase());
+       
+
+        
     }
+    private IEnumerator InitializeHiringPhase()
+    {
+        // wait until the other shit initializes
+        yield return new WaitUntil(() => StaffManager.Instance != null && HireMenuUI.Instance != null);
+        
+        isInitialized = true;
+        Debug.Log("Hiring list generated!");
+    }
+
 
     // Update is called once per frame
     void Update()
     {
         // TODO: generate new orders on some interval
-            // using kitchenSystem.
+        // using kitchenSystem.
+        if (isInitialized && Input.GetKeyDown(KeyCode.Space))
+        {
+            // Test the hiring UI with the spacebar
+            StaffManager.Instance.GenerateWeeklyHiringList(3);
+            Debug.Log("Hiring list generated!");
+        }
+        else
+        {
+            Debug.LogError("StaffManager.Instance is null!");
+        }
+        
     }
 
     // TODO: some function to handle pizza object creation (in data)
