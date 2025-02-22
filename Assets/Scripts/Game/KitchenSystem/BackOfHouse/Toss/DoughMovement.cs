@@ -1,60 +1,92 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-// higher up the pizza is, the more downward it should project and vice versa
-// at the start, should be fully horizontal
+/*
+* Script managing the actual functionality of the toss minigame. Handling dough movement, user input
+*  for mini-game, fail vs success state, and game completion.
+*
+* Contributors: Caleb Huerta-Henry
+* Last Updated: Feb 22, 2025
+*/
+
+// TODO: when halfway through, allow a big spin upwards
+    // maybe like right->up->left->down, gets you progress exactly matching lvl
+    // (so like v high level gets a lot from the spin)
+
+// TODO: use tossLvl to alter game (e.g. less requiredTosses, higher maxSpeed, larger collision objects)
 
 public class DoughMovement : MonoBehaviour
 {
-    private const int requiredTosses = 20;
-    private const float speedMult = 10f; // how much speed increases per successful toss
-    private const float baseHorizSpeed = 120f, baseVertSpeed = 80f, maxRotation = 5f;
+    [Header("Movement/Game Vars")]
+    public int requiredTosses = 20;
+    public float speedMult = 10f; // how much speed increases per successful toss
+    public float baseHorizSpeed = 120f, baseVertSpeed = 80f, maxRotation = 5f;
 
-    public GameObject dough, circular;
+    [Header("Unity Objects")]
+    public GameObject dough;
+    public GameObject circular;
     public TossGameManager tossGame;
     public TMP_Text instructTxt;
+    public TMP_Text qualityTxt;
+    public Scrollbar progressBar;
 
     private Rigidbody2D rb;
     private float xStart = -4f, yStart = 0;
     private bool gameActive = false;
 
     private float maxSpeed = -1f, currSpeed = 0f;
-    private bool direction = false; // true for right, false for right
+    private bool direction = false; // true = right, false = left (toggles when game starts, so will start right)
     private float progress = 0f;
     private bool tossListener = false;
 
     void Start() {
-        instructTxt.text = "Press [Space] to begin";
+        progressBar.gameObject.SetActive(false);
+        qualityTxt.gameObject.SetActive(false);
+
         rb = dough.GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 
     public bool tossStarted() { return progress > 0f; }
-    public void beginGame(float maxSpeed) {
+    public void beginGame(float maxSpeed, int tossLvl) {
+        // TODO: use tossLvl to alter game (e.g. less requiredTosses, higher maxSpeed, larger collision objects)
         instructTxt.text = "";
+        qualityTxt.text = "Quality: 100";
+        progressBar.size = 0f;
+        qualityTxt.gameObject.SetActive(true);
+        progressBar.gameObject.SetActive(true);
+
         dough.transform.position = new Vector3(xStart, yStart, 0);
         this.maxSpeed = maxSpeed;
         currSpeed = 1f;
+        StartCoroutine(gameInit());
+    }
+    private IEnumerator gameInit() {
+        yield return new WaitForSeconds(1f);
         gameActive = true;
         toggleDoughMovement();
         doughMove();
     }
+
     public void continueGame() {
         if(!gameActive) {
-            gameActive = true;
+            instructTxt.text = "";
             direction = false;
             dough.transform.position = new Vector3(xStart, yStart, 0);
-            toggleDoughMovement();
-            doughMove();
+            StartCoroutine(gameInit());
         }
     }
     public void failGame() {
         toggleDoughMovement();
         tossListener = false;
         gameActive = false;
+
+        currSpeed = 1f;
         dough.transform.position = new Vector3(0, -2.7f, 0);
         tossGame.tossFail();
-        instructTxt.text = "Press [Space] to continue";
+        instructTxt.text = "Press [Space] to continue...";
     }
 
     public void toggleDoughMovement() {
@@ -82,17 +114,23 @@ public class DoughMovement : MonoBehaviour
         if (gameActive && progress >= 100f){
             // end game and send final quality to 
             toggleDoughMovement();
+            progressBar.gameObject.SetActive(false);
             tossListener = false;
             gameActive = false;
             dough.transform.position = Vector3.zero;
             tossGame.tossComplete();
         }
 
+        // TODO: if halfway through, allow a big spin upwards
+            // maybe like right->up->left->down, gets you progress exactly matching lvl
+            // (so like v high level gets a lot from the spin)
+
         if (tossListener) {
             var horiz = Input.GetAxis("Horizontal");
             if ((direction && horiz < 0f) || (!direction && horiz > 0f)){
                 tossListener = false;
                 progress += 100f / requiredTosses;
+                progressBar.size = progress / 100f;
 
                 // make pizza more circular each toss
                 Vector3 scale = circular.transform.localScale;
@@ -114,6 +152,7 @@ public class DoughMovement : MonoBehaviour
         col.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.1f);
         if (tossListener) {
             failGame();
+            qualityTxt.text = "Quality: " + tossGame.getQuality();
         }
     }
 }

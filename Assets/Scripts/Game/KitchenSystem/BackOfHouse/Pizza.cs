@@ -29,6 +29,8 @@ public enum CutType {
 
 public class Pizza {
     private string id; // unique identifier
+    public string getID(){ return id; }
+
     public float tossQuality;
     public List<Topping> toppings; // some container for current toppings
     public float cookLevel; // 0-100 value [50 as extra light, 70 as light, 80 as normal, 90 as well done, 100 as extra well done]
@@ -44,18 +46,12 @@ public class Pizza {
         this.cutType = cutType;
     }
 
-    public string getID(){
-        return id;
-    }
-
     // this is for generating a default pizza object through the toss mini-game
     public Pizza(float toss){
         id = Guid.NewGuid().ToString();
         tossQuality = toss;
         toppings = null; // init to empty list
-
         cookLevel = 0; // uncooked
-
         cutQuality = 0;
         cutType = CutType.None; // un cut
     }

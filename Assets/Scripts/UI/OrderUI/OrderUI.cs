@@ -1,7 +1,6 @@
-using System;
-using Mono.Cecil.Cil;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /*
@@ -13,16 +12,12 @@ using UnityEngine.UI;
 
 // TODO: at some point, we will want to make this UI prettier
 
-public class OrderUI : MonoBehaviour
+public class OrderUI : MonoBehaviour, IPointerClickHandler
 {
     public Order order;
-    public TMP_Text nameText;
-    public TMP_Text timeText;
-    public TMP_Text priceText;
-    public TMP_Text orderText;
-
+    public TMP_Text nameText, timeText, priceText, orderText;
     private float timeRemaining;
-    private Color overdueColor = new Color(1f, 122 / 255f, 122 / 255f);
+    private Color overdue = new Color(1f, 122 / 255f, 122 / 255f);
 
     public void setOrder(Order order, int index)
     {
@@ -41,8 +36,8 @@ public class OrderUI : MonoBehaviour
     {
         timeRemaining = order.timePlaced + order.timeAllowed - Time.time;
         timeText.text = strTimeTilDue();
-        if(timeRemaining < 0 && gameObject.GetComponent<RawImage>().color != overdueColor) {
-            gameObject.GetComponent<RawImage>().color = overdueColor;
+        if(timeRemaining < 0 && gameObject.GetComponent<RawImage>().color != overdue) {
+            gameObject.GetComponent<RawImage>().color = overdue;
         }
     }
 
@@ -53,6 +48,17 @@ public class OrderUI : MonoBehaviour
             return mins + "m " + (secs % 60) + "s til due";
         } else {
             return secs + "s til due";
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        var tgm = GameObject.Find("TossManager").GetComponent<TossGameManager>();
+        if(tgm != null){
+            // try to assign this order to whatever pizza was just tossed
+            tgm.assignToOrder(order);
+        } else {
+            Debug.LogError("OrderUI could not find TossManager object in scene");
         }
     }
 }
