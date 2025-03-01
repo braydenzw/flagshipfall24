@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ using UnityEngine;
 *  2. Character attributes (this should follow the same protocol as the AI worker attributes)
 */
 
+[Serializable]
 public class PlayerStats {
     public CharacterAttributes attr;
 

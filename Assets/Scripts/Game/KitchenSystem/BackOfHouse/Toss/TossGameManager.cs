@@ -55,7 +55,7 @@ public class TossGameManager : MonoBehaviour
         if(!gameActive && !gameEnded && !dough.tossStarted() && Input.GetKeyDown(orderUIKey)){
             orderUI.SetActive(!orderUI.activeSelf);
         }
-        if(!gameEnded && Input.GetKeyDown(KeyCode.Escape)){
+        if(!gameEnded && Input.GetKeyDown(KeyCode.Q)){
             GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
             SceneManager.LoadScene(mainScene);
         }
@@ -75,7 +75,7 @@ public class TossGameManager : MonoBehaviour
     }
 
     // TODO: this will create a new pizza GameObject and link it to the created Pizza data object
-        // It will also assign this to an order (note: orders should be allowed to be assigned to an infinite # of pizzas)
+        // It will also assign this to an order (note: orders should be allowed to be assigned to any # of pizzas)
         // so the person who gets it (ai or human) knows what to do with it
     public void assignToOrder(Order o){
         if(gameEnded) {

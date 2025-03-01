@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
 * This is the main game manager for whenever the game is actually running
@@ -14,16 +15,31 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameObject gameManager;
     public static GameData gameData; // this should be the current state of the game
     // can be updated by other scripts (e.g. DayProgession should update this when the day ends)
+    public string kitchenScene = "TestEnvironment";
 
     void Awake()
     {
-        gameData = GameSaveSystem.loadGameData(); // load current game state
+        DontDestroyOnLoad(this.gameObject);
+        if (gameManager == null) {
+		    gameManager = this.gameObject;
+        } else {
+            Destroy(this.gameObject);
+        }
     }
 
-    // TODO: some function to "begin" a day
-     // load actual game scene basically (actual game scene should handle everything else)
+    public void beginDay(){
+        // basically just load kitchen scene
+        SceneManager.LoadScene(kitchenScene);
+    }
+    
+    public void endDay(){
+        // basically just save game
+        GameSaveSystem.saveGame(gameData);
 
-    // TODO: some function to "end" current object -> save current state and destroy instance
+        // destroy static objs from kitchen?
+        // and then go to some recap scene
+    }
 }

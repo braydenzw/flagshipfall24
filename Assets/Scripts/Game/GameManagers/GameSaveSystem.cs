@@ -1,5 +1,6 @@
-using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 /*
@@ -16,33 +17,60 @@ using UnityEngine;
 // realistically it probably shouldn't be a priority to stop cheating
 public static class GameSaveSystem {
     private static GameData gameData;
-    private static string currentSaveFile;
+    private static Dictionary<SaveFile, string> saves;
+    private static string saveFileDirectory = Path.Join(Application.persistentDataPath, "Saves");
+    private static string currentSaveFile = null;
 
-
-    // set the actual save file and read the contents into gameData
-    public static bool loadSaveFile(string file){
-        currentSaveFile = file;
-
-        // TODO: read the contents of the save file at this path
-         // and de-serialize into a GameData object
-
-        return true; // should return based on if the "load" was successful
+    public static Dictionary<SaveFile, string> loadAllSaves(){
+        // partial load of relevant data to saves
+        if(saves == null) {
+            saves = new Dictionary<SaveFile, string>();
+            foreach(string file in Directory.GetFiles(saveFileDirectory)){
+                var s = JsonUtility.FromJson<SaveFile>(File.ReadAllText(file));
+                saves[s] = file;
+            }
+        }
+        return saves;
     }
 
-    // just give whoever needs access access to this (may be null)
-    public static GameData loadGameData(){
-        if(gameData == null){
-            Debug.LogWarning("Loaded game data was null");
-            gameData = new GameData(new PlayerStats(), new StaffData()); 
+    public static GameData loadSave(string saveFile){
+        if(File.Exists(saveFile)) {
+            string json = File.ReadAllText(saveFile);
+            currentSaveFile = saveFile;
+            PlayerPrefs.SetString("LastSave", saveFile);
+            return JsonUtility.FromJson<GameData>(json);
+        } else {
+            Debug.LogError("Requested save file not found: " + saveFile);
+            return null;
+        }
+    }
+
+    public static GameData createNewSave(string name){
+        gameData = new GameData(name, 1, new PlayerStats(), new StaffData());
+        if(!Directory.Exists(saveFileDirectory)){
+            Directory.CreateDirectory(saveFileDirectory);
         }
 
+        string newSave = Path.Join(saveFileDirectory, name + ".json");
+        while(Directory.GetFiles(saveFileDirectory).Contains(newSave)){
+            // don't let save files have same name, or we'll overwrite data
+            newSave = Path.Join(saveFileDirectory, name + "_1.json");
+        }
+        currentSaveFile = newSave;
+        PlayerPrefs.SetString("LastSave", newSave);
+        File.WriteAllText(newSave, JsonUtility.ToJson(gameData, true));
+        saves[new SaveFile(name, 1)] = newSave;
         return gameData;
     }
 
-    // TODO: function that writes a save file to memory
-        // should serialize the current object and overwrite the save 
-        // should return whether this action was completed successfully (handle IOExceptions, etc)
-    public static bool saveGameData(GameData newGameData){
-        return false;
+    public static bool saveGame(GameData newData){
+        if(currentSaveFile == null){
+            Debug.LogError("Attempted to save game without active save file.");
+            return false;
+        } else {
+            File.WriteAllText(currentSaveFile, JsonUtility.ToJson(newData, true));
+            Debug.Log("Game Saved to: " + currentSaveFile);
+            return true;
+        }
     }
 }
