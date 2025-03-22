@@ -30,7 +30,7 @@ public enum CutType {
 public class Pizza {
     private int id; // some identifier (unique!)
     private float tossQuality;
-    private List<Topping> toppings; // some container for current toppings
+    public List<Topping> toppings; // some container for current toppings
     private float cookLevel;
     private float cutQuality;
     private CutType cutType;

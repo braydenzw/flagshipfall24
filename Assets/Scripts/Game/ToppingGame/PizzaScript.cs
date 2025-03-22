@@ -54,7 +54,7 @@ public class PizzaScript : MonoBehaviour
                     toppingList.Add(entry.Key);
                 }
             }
-            // pizza.toppings = toppingList
+            pizza.toppings = toppingList;
             // !!!! End scene somehow !!!!
         }
 
