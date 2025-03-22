@@ -101,4 +101,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pizzaLayer: 31
+  pizza: {fileID: 0}
   toppingType: 0

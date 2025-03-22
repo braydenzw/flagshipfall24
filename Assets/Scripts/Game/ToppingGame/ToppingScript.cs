@@ -1,5 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+
+public enum ToppingTypes
+    {
+        Pepperoni,
+        Dick,
+    }
 
 public class ToppingScript : MonoBehaviour
 {
@@ -9,11 +16,6 @@ public class ToppingScript : MonoBehaviour
     
     public GameObject pizza;
     
-    public enum ToppingTypes
-    {
-        Pepperoni,
-        Dick,
-    }
     public ToppingTypes toppingType;
     void Start()
     {
@@ -46,7 +48,7 @@ public class ToppingScript : MonoBehaviour
                 isHeld=false;
                 if(!dropRay) Destroy(this.gameObject);
                 else {
-                    
+                    pizza.GetComponent<PizzaScript>().AddTopping(toppingType,this.gameObject);
                 }
             }
         }
