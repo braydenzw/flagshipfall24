@@ -6,7 +6,9 @@ public class ToppingBox : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject topping;
     public int layerToCollide;
-    public ToppingTypes toppingType;
+    public Topping toppingType;
+    
+    
     void Start()
     {
         layerToCollide=1<<layerToCollide;

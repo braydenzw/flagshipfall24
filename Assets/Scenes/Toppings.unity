@@ -672,6 +672,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toppingCount: 0
   debugMode: 0
+  typeCount: 3
+  maxNumberOfToppingsPerOrderedTopping: 3
 --- !u!1001 &3154924050922605047
 PrefabInstance:
   m_ObjectHideFlags: 0

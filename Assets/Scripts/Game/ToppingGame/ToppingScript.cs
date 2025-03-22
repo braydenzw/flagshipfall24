@@ -2,12 +2,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public enum ToppingTypes
-    {
-        Pepperoni,
-        Dick,
-    }
-
 public class ToppingScript : MonoBehaviour
 {
     public int pizzaLayer;
@@ -16,7 +10,7 @@ public class ToppingScript : MonoBehaviour
     
     public GameObject pizza;
     
-    public ToppingTypes toppingType;
+    public Topping toppingType;
     void Start()
     {
         pizza = GameObject.Find("Pizza");
@@ -25,10 +19,10 @@ public class ToppingScript : MonoBehaviour
         switch (toppingType)
         {
             // This is where you assign the color of each topping type
-            case ToppingTypes.Pepperoni:
+            case Topping.Pepperoni:
                 this.GetComponent<SpriteRenderer>().color=Color.red;
                 break;
-            case ToppingTypes.Dick:
+            case Topping.Mushroom:
                 this.GetComponent<SpriteRenderer>().color=Color.black;
                 break;
         }
