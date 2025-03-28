@@ -1,16 +1,49 @@
 /*
 * This is a generic class containing all information and interaction
 *  with the kitchen components.
+* 
+*  Last Updated 1 Feb 2025
+*  Contibutors: Caleb Huerta-Henry
 */
 
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class Kitchen {
-    // TODO: some container/manager of current pizza ownership (map of charID -> pizzaID)
-    // TODO: some container/manager of current pizzas (probably map of pizzaID -> pizza object)
+    private List<GameObject> claimedPizzas; // pizza IDs
+    private Dictionary<GameObject, Pizza> pizzaObjects; // pizza ID to associated GameObject in scene
 
     public Kitchen(){
-        // TODO: create init function
+        claimedPizzas = new List<GameObject>();
+        pizzaObjects = new Dictionary<GameObject, Pizza>();
     }
 
-    // TODO: some way to create a new pizza with a given tossQuality
-    // TODO: some way to claim and transfer ownership of an active pizza (including null)
+    /// <summary>
+    /// Attempts to claim pizza data object through associated GameObject
+    /// </summary>
+    /// <returns>
+    /// The Pizza data object associated with the claimed GameObject or null if action is not valid (already claimed or system error).
+    /// </returns>
+    public Pizza claimPizza(GameObject p){
+        if(claimedPizzas.Contains(p)){
+            return null;
+        } else if(pizzaObjects.ContainsKey(p)) {
+            claimedPizzas.Add(p);
+            return pizzaObjects[p];
+        } else {
+            Debug.LogError("Attempted to claim pizza without associated GameObject.");
+            return null;
+        }
+    }
+    public bool unclaimPizza(GameObject p){
+        return claimedPizzas.Remove(p);
+    }
+
+    public void addPizza(GameObject o, Pizza p){
+        pizzaObjects.Add(o, p);
+    }
+    public bool removePizza(GameObject p){
+        return pizzaObjects.Remove(p) && claimedPizzas.Remove(p);
+    }
 }

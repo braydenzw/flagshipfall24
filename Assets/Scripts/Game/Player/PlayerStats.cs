@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,14 +13,32 @@ using UnityEngine;
 *  2. Character attributes (this should follow the same protocol as the AI worker attributes)
 */
 
+[Serializable]
 public class PlayerStats {
-    private CharacterAttributes attr;
-
-    // TODO: create and manage game stats (profit, days played, etc)
+    public CharacterAttributes attr;
+    private float totalProfit;
+    private float totalQuality;
+    private int totalPizzas;
+    public float currentBalance;
 
     public PlayerStats() {
-        // TODO: implement instantiation function
+        attr = new CharacterAttributes();
+
+        totalPizzas = 0;
+        totalProfit = 0;
+        totalQuality = 0;
+        currentBalance = 0;
     }
 
-    // TODO: create functions that can be used to update stored data
+    public void dayCompleted(int pizzas, float profit, float quality){
+        totalPizzas += pizzas;
+        totalProfit += profit;
+        totalQuality += quality;
+        currentBalance += profit;
+        attr.addXP(quality);
+    }
+
+    public float averagePizzaQuality(){
+        return totalQuality / totalPizzas;
+    }
 }

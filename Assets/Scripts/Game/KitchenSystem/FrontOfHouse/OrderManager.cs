@@ -4,18 +4,92 @@
 *
 * This class should have containers of Order objects which can be retrieved
 *  by other classes/scripts
+*
+* Contributors: Caleb Huerta-Henry
+*  Last Updated: 1 Feb 2025
 */
 
-public class OrderManager {
+using System.Collections.Generic;
+using UnityEngine;
 
-    // TODO: some container of current orders
-    // TODO: some container of completed orders for this day
+public class OrderManager : MonoBehaviour {
 
-    public OrderManager() {
+    // default mins/maxes for order and pizza stats
+    private const float minTossQuality = 50, maxTossQuality = 100;
+    private const int minToppings = 0, maxToppings = 5;
+    private const float minCookLevel = 50, maxCookLevel = 100;
+    private const float minCutQuality = 50, maxCutQuality = 100;
+    private const float minTimeAllowed = 60 * 1.5f; // TODO: finalize these times bc idk what is reasonable
+    private const float maxTimeAllowed = 60 * 2.5f; // TODO: this one too
+    private const float basePrice = 20f;
 
+    private Dictionary<string, Order> orders; // container of all orders for current day
+    private List<OrderResult> completedOrders; // container of completed orders for this day
+
+   private void Start() {
+        orders = new Dictionary<string, Order>();
+        completedOrders = new List<OrderResult>();
+    }
+    public Dictionary<string, Order> getOrders() { return orders; }
+    public List<OrderResult> getCompletedOrders() { return completedOrders; }
+    public int numOrders() { return orders.Count; }
+    public int numCompletedOrders() { return completedOrders.Count; }
+    public float getMaxOrderTime() { return maxTimeAllowed; }
+    public float getDayProfit() {
+        float profit = 0;
+        foreach(OrderResult or in completedOrders){
+            profit += or.getProfit();
+        }
+        return profit;
     }
 
-    // TODO: some function to generate a random order based on current player LVL
+    // some way to submit to a order id
+    public OrderResult submitOrder(string orderID, Pizza p){
+        Order order = orders[orderID];
 
-    // TODO: some function that returns summary of end of day (in a readable object)
+        if(order != null){
+            OrderResult res = order.submit(p);
+            completedOrders.Add(res);
+            orders.Remove(orderID);
+            return res;
+        }
+
+        Debug.LogError("Attempted to submit order with invalid orderID");
+        return new OrderResult(orderID, -1, -1, -1);
+    }
+
+    // generate a random order based on current player LVL
+    public Order generateOrder(PlayerStats ps, string customer){
+        int lvl = ps.attr.lvl; // difficulty of generated order depends on curr player lvl
+        float price = basePrice;
+
+        float toss = randomBellCurve(minTossQuality + lvl, maxTossQuality);
+        List<Topping> toppings = new List<Topping>();
+        int numToppings = Random.Range(minToppings, maxToppings);
+        for(int i = 0; i < numToppings; i++){
+            Topping t = (Topping) Random.Range(0, System.Enum.GetNames(typeof(Topping)).Length);
+            if(!toppings.Contains(t)){
+                toppings.Add(t);
+                price += Pricing.toppingPrice(t);
+            }
+        }
+
+        // cook level is more stylistic than difficulty, so not based on lvl
+        float cook = randomBellCurve(minCookLevel, maxCookLevel);
+        float cut = randomBellCurve(minCutQuality + lvl, maxCutQuality);
+        CutType cutType = (CutType) Random.Range(0, System.Enum.GetNames(typeof(CutType)).Length);
+
+        // random time allowed w/ difficulty based on lvl
+        float timeAllowed = randomBellCurve(minTimeAllowed, maxTimeAllowed - lvl);
+        Order newOrder = new Order(customer, price,
+            new Pizza(toss, toppings, cook, cut, cutType),
+            Time.time, timeAllowed);
+        orders.Add(newOrder.getID(), newOrder);
+        return newOrder;
+    }
+
+    // generate a random num in range with bell curve distribution (aka bias towards middle values)
+    public float randomBellCurve(float min, float max){
+        return Mathf.Round((Random.Range(min, max) + Random.Range(min, max)) / 2f);
+    }
 }

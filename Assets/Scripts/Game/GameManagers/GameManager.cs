@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
 * This is the main game manager for whenever the game is actually running
@@ -14,16 +15,34 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameObject gameManager;
     public static GameData gameData; // this should be the current state of the game
     // can be updated by other scripts (e.g. DayProgession should update this when the day ends)
+    public string kitchenScene = "KitchenScene";
 
-    void Start()
+    void Awake()
     {
-        gameData = GameSaveSystem.loadGameData(); // load current game state
+        DontDestroyOnLoad(this.gameObject);
+        if (gameManager == null) {
+		    gameManager = this.gameObject;
+        } else {
+            Destroy(this.gameObject);
+        }
     }
 
-    // TODO: some function to "begin" a day
-     // load actual game scene basically (actual game scene should handle everything else)
+    public void beginDay(){
+        // basically just load kitchen scene
+        SceneManager.LoadScene(kitchenScene);
+    }
+    
+    public static void saveDayResults(int orders, float profit, float quality){
+        if(gameData == null){
+            Debug.LogError("Could not save day results: gameData was null.");
+            return;
+        }
 
-    // TODO: some function to "end" current object -> save current state and destroy instance
+        gameData.day++;
+        gameData.playerStats.dayCompleted(orders, profit, quality);
+        GameSaveSystem.saveGame(gameData);
+    }
 }
