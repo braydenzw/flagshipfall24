@@ -5,17 +5,18 @@ using UnityEngine;
 *  Interactable based on a trigger collider.
 *
 *  Contributors: Caleb Huerta-Henry
-*  Last Updated: 
+*  Last Updated: March 8, 2025
 */
 
 
 public class TossTable : MonoBehaviour
 {
-    private Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
-    private Color untriggered = new Color(0f, 0f, 0f, 0.2f);
-    private SpriteRenderer trigger;
+    public KeyCode interactKey = KeyCode.E;
+    public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
+    public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
+    
     private bool interactable = false;
-
+    private SpriteRenderer trigger;
     private GameObject pizza;
     private GameObject player, playerPizza;
     private PlayerManager pm;
@@ -35,13 +36,12 @@ public class TossTable : MonoBehaviour
         dm = GameObject.Find("DayManager").GetComponent<DayManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // either player has no pizza or table has no pizza (not both)
         if(interactable && playerPizza.activeSelf != pizza.activeSelf){
-            trigger.color = pm.facing() == PlayerManager.Direction.Up ? triggered : untriggered;
-            if(Input.GetKeyDown(KeyCode.E)){
+            trigger.color = triggered;
+            if(Input.GetKeyDown(interactKey)){
                 if(playerPizza.activeSelf){
                     // move player pizza to table
                     dm.swapGameObjPizza(playerPizza.GetInstanceID(), pizza.GetInstanceID());
@@ -59,7 +59,9 @@ public class TossTable : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.tag == "Player"){ interactable = true; }
+        if(col.tag == "Player"){
+            interactable = true;
+        }
     }
     void OnTriggerExit2D(Collider2D col)
     {

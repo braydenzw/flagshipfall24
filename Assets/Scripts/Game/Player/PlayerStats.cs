@@ -16,13 +16,29 @@ using UnityEngine;
 [Serializable]
 public class PlayerStats {
     public CharacterAttributes attr;
-
-    // TODO: create and manage game stats (profit, days played, etc)
+    private float totalProfit;
+    private float totalQuality;
+    private int totalPizzas;
+    public float currentBalance;
 
     public PlayerStats() {
-        // TODO: implement instantiation function
         attr = new CharacterAttributes();
+
+        totalPizzas = 0;
+        totalProfit = 0;
+        totalQuality = 0;
+        currentBalance = 0;
     }
 
-    // TODO: create functions that can be used to update stored data
+    public void dayCompleted(int pizzas, float profit, float quality){
+        totalPizzas += pizzas;
+        totalProfit += profit;
+        totalQuality += quality;
+        currentBalance += profit;
+        attr.addXP(quality);
+    }
+
+    public float averagePizzaQuality(){
+        return totalQuality / totalPizzas;
+    }
 }

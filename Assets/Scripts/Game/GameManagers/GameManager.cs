@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private static GameObject gameManager;
     public static GameData gameData; // this should be the current state of the game
     // can be updated by other scripts (e.g. DayProgession should update this when the day ends)
-    public string kitchenScene = "TestEnvironment";
+    public string kitchenScene = "KitchenScene";
 
     void Awake()
     {
@@ -35,11 +35,14 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(kitchenScene);
     }
     
-    public void endDay(){
-        // basically just save game
-        GameSaveSystem.saveGame(gameData);
+    public static void saveDayResults(int orders, float profit, float quality){
+        if(gameData == null){
+            Debug.LogError("Could not save day results: gameData was null.");
+            return;
+        }
 
-        // destroy static objs from kitchen?
-        // and then go to some recap scene
+        gameData.day++;
+        gameData.playerStats.dayCompleted(orders, profit, quality);
+        GameSaveSystem.saveGame(gameData);
     }
 }

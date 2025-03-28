@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
 * This is an actual Unity script that should allow the player to interact with this station
@@ -16,23 +17,50 @@ using UnityEngine;
 
 public class OvensStation : MonoBehaviour
 {
-    // TODO: some ordered container of pizza objects
+    public KeyCode interactKey = KeyCode.E;
+    public string ovenScene = "OvenGame";
+    public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
+    public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
 
-    // TODO: add some timing var(s)
+    private bool interactable = false;
+    private SpriteRenderer trigger;
+    private GameObject playerPizza;
+    private PlayerManager pm;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // do any setup here
+        trigger = GetComponent<SpriteRenderer>();
+        trigger.color = untriggered;
+
+        var player = GameObject.Find("Player").transform.GetChild(0).gameObject;
+        playerPizza = player.transform.GetChild(0).gameObject;
+        pm = player.GetComponent<PlayerManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // TODO: use this to update Pizza.cookLevel of all occupied slots on some interval
+        // must be in trigger and holding pizza object
+        if(interactable && playerPizza.activeSelf) {
+            trigger.color = triggered;
+            if(Input.GetKeyDown(interactKey)){
+                Debug.Log("Loading oven game");
+                SceneManager.LoadScene(ovenScene);
+            }
+        }
     }
 
-    // TODO: something handling user interaction
-    // TODO: something handling placement of pizza object (put down and pick up)
-    // TODO: something handling "cooking" process
+    // only allow game activation based on collider trigger
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.tag == "Player"){
+            interactable = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if(col.tag == "Player"){
+            interactable = false;
+            trigger.color = untriggered;
+        }
+    }
 }

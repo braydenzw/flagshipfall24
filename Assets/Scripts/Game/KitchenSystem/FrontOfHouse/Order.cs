@@ -21,10 +21,10 @@ public class Order {
     
     // constants to reference in evaluating order score
     const double tossWeight = 0.1;
-    const double topWeight = 0.25;
-    const double cookWeight = 0.25;
+    const double topWeight = 0.4;
+    const double cookWeight = 0.2;
     const double cutWeight = 0.1;
-    const double timeWeight = 0.3;
+    const double timeWeight = 0.2;
 
     private string id; // some way to ID order when it emits a value
     public Pizza expected; // some way to check if order submission is good
@@ -87,19 +87,41 @@ public class Order {
             + cookWeight * cookScore
             + cutWeight * (0.5 * cutQuality + 0.5 * cutType)
             + timeWeight * timeScore));
-        return new OrderResult(id, price, score);
+        float tip = price * tipPercentage(score);
+        return new OrderResult(id, price, tip, score);
+    }
+    private float tipPercentage(int quality){
+        if(quality > 90){
+            return 0.2f;
+        } else if (quality > 80){
+            return 0.15f;
+        } else if (quality > 70){
+            return 0.1f;
+        } else if (quality > 60){
+            return 0.05f;
+        } else {
+            return 0f;
+        }
     }
 }
 
 // helper struct to organize result data returned
 public struct OrderResult {
-    string orderID;
-    float price;
-    int quality;
+    readonly string orderID;
+    readonly float price;
+    readonly float tip;
+    readonly int quality;
 
-    public OrderResult(string orderID, float price, int quality){
+    public OrderResult(string orderID, float price, float tip, int quality){
         this.orderID = orderID;
         this.price = price;
+        this.tip = tip;
         this.quality = quality;
     }
+
+    public string getOrderID() { return orderID; }
+    public float getProfit() { return price + tip; }
+    public float getQuality() { return quality; }
+    public float getPrice() { return price; }
+    public float getTip() { return tip; }
 }

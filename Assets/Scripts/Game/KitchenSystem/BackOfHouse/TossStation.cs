@@ -6,19 +6,20 @@ using UnityEngine.SceneManagement;
 *  if the current game/player state should allow it.
 *
 *  Contributors: Caleb Huerta-Henry
-*  Last Updated: Feb 22, 2025
+*  Last Updated: March 8, 2025
 */
 
 // TODO: right now this assumes the player will only interact w this station when facing Up
 
 public class TossStation : MonoBehaviour
 {
-    private Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
-    private Color untriggered = new Color(0f, 0f, 0f, 0.2f);
-    private SpriteRenderer tossTrigger;
+    public KeyCode interactKey = KeyCode.E;
+    public string tossScene = "TossGame";
+    public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
+    public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
 
     private bool interactable = false;
-    private string tossScene = "TossGame"; // load this scene...
+    private SpriteRenderer tossTrigger;
     private GameObject playerPizza;
     private PlayerManager pm;
 
@@ -35,8 +36,8 @@ public class TossStation : MonoBehaviour
     void Update()
     {
         if(interactable && !playerPizza.activeSelf) {
-            tossTrigger.color = pm.facing() == PlayerManager.Direction.Up ? triggered : untriggered;
-            if(Input.GetKey(KeyCode.E)){
+            tossTrigger.color = triggered;
+            if(Input.GetKeyDown(interactKey)){
                 SceneManager.LoadScene(tossScene);
             }
         }

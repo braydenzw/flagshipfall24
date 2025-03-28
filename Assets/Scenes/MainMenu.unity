@@ -829,7 +829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d789cac61871e4369b79045ca1a9c6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenScene: TestEnviroment
+  kitchenScene: KitchenScene
 --- !u!4 &449038803
 Transform:
   m_ObjectHideFlags: 0

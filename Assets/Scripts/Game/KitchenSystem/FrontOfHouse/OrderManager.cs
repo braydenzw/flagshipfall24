@@ -15,32 +15,32 @@ using UnityEngine;
 public class OrderManager : MonoBehaviour {
 
     // default mins/maxes for order and pizza stats
-    private const float minTossQuality = 50;
-    private const float maxTossQuality = 100;
-    private const int minToppings = 0;
-    private const int maxToppings = 5;
-    private const float minCookLevel = 50;
-    private const float maxCookLevel = 100;
-    private const float minCutQuality = 50;
-    private const float maxCutQuality = 100;
+    private const float minTossQuality = 50, maxTossQuality = 100;
+    private const int minToppings = 0, maxToppings = 5;
+    private const float minCookLevel = 50, maxCookLevel = 100;
+    private const float minCutQuality = 50, maxCutQuality = 100;
     private const float minTimeAllowed = 60 * 1.5f; // TODO: finalize these times bc idk what is reasonable
-    private const float maxTimeAllowed = 60 * 4f; // TODO: this one too
+    private const float maxTimeAllowed = 60 * 2.5f; // TODO: this one too
     private const float basePrice = 20f;
 
-    // container of all orders for current day
-    private Dictionary<string, Order> orders;
-    // container of completed orders for this day
-    private List<OrderResult> completedOrders;
+    private Dictionary<string, Order> orders; // container of all orders for current day
+    private List<OrderResult> completedOrders; // container of completed orders for this day
 
    private void Start() {
         orders = new Dictionary<string, Order>();
         completedOrders = new List<OrderResult>();
     }
-    public Dictionary<string, Order> getOrders() {
-        return orders;
-    }
-    public int numOrders() {
-        return orders.Count;
+    public Dictionary<string, Order> getOrders() { return orders; }
+    public List<OrderResult> getCompletedOrders() { return completedOrders; }
+    public int numOrders() { return orders.Count; }
+    public int numCompletedOrders() { return completedOrders.Count; }
+    public float getMaxOrderTime() { return maxTimeAllowed; }
+    public float getDayProfit() {
+        float profit = 0;
+        foreach(OrderResult or in completedOrders){
+            profit += or.getProfit();
+        }
+        return profit;
     }
 
     // some way to submit to a order id
@@ -55,7 +55,7 @@ public class OrderManager : MonoBehaviour {
         }
 
         Debug.LogError("Attempted to submit order with invalid orderID");
-        return new OrderResult(orderID, -1, -1);
+        return new OrderResult(orderID, -1, -1, -1);
     }
 
     // generate a random order based on current player LVL
