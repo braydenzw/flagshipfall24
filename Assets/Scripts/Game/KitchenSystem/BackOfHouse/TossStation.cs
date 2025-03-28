@@ -1,36 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
-* This is an actual Unity script that should allow the player to interact with this station
-*  The actual implementation of this is up to whoever is scripting this...
-*  
-*  Requirements:
-*   - User can interact with the station somehow
-*   - When interacting, user can begin some mini-game related to the station
-*   - Based on the performance of the mini-game, some a new Pizza Unity object is created in the current scene
-*     - Some signal is also sent to DayManager to keep track of this new object in the active data
+* Allows player to interact with toss station. This means activating the mini-game 
+*  if the current game/player state should allow it.
+*
+*  Contributors: Caleb Huerta-Henry
+*  Last Updated: March 8, 2025
 */
+
+// TODO: right now this assumes the player will only interact w this station when facing Up
 
 public class TossStation : MonoBehaviour
 {
-    public GameObject pizza; // actual prefab to be used when creating new Unity object
-    public DayManager dayManager; // requires this to call data management function
+    public KeyCode interactKey = KeyCode.E;
+    public string tossScene = "TossGame";
+    public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
+    public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
 
-    // Start is called before the first frame update
+    private bool interactable = false;
+    private SpriteRenderer tossTrigger;
+    private GameObject playerPizza;
+    private PlayerManager pm;
+
     void Start()
     {
-        // do any setup here
+        tossTrigger = GetComponent<SpriteRenderer>();
+        tossTrigger.color = untriggered;
+
+        var player = GameObject.Find("Player").transform.GetChild(0).gameObject;
+        playerPizza = player.transform.GetChild(0).gameObject;
+        pm = player.GetComponent<PlayerManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        if(interactable && !playerPizza.activeSelf) {
+            tossTrigger.color = triggered;
+            if(Input.GetKeyDown(interactKey)){
+                SceneManager.LoadScene(tossScene);
+            }
+        }
     }
 
-    // TODO: something handling user interaction
-    // TODO: something handling actual mini-game
-    // TODO: some function to create new Pizza prefab
+    // only allow game activation based on collider trigger
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if(col.tag == "Player"){
+            interactable = true;
+        }
+    }
+    void OnTriggerExit2D(Collider2D col)
+    {
+        if(col.tag == "Player"){
+            interactable = false;
+            tossTrigger.color = untriggered;
+        }
+    }
 }
