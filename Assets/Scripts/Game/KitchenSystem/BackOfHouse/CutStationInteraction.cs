@@ -11,15 +11,16 @@ using UnityEngine.SceneManagement;
 *       - Place a pizza down in an unoccupied slot
 *       - Pick up a pizza from an occupied slot
 *       - Begin some mini-game related to the station
-*   - Based on the performance in mini-game, Pizza object is updated with addTopping() function (actual name might be diff)
+*           - Based on the performance in mini-game, Pizza object is updated
+*       - Send out/submit a pizza object
 */
 
 
-public class TopStation : MonoBehaviour
+public class CutStationInteraction : MonoBehaviour
 {
     public KeyCode swapPizzaKey = KeyCode.Q;
     public KeyCode startGameKey = KeyCode.E;
-    public string topScene = "TopGame";
+    public string cutScene = "CutGame";
     public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
     public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
     
@@ -64,8 +65,8 @@ public class TopStation : MonoBehaviour
         if(interactable && (playerPizza.activeSelf || pizza.activeSelf)) {
             trigger.color = triggered;
             if(Input.GetKeyDown(startGameKey)){
-                Debug.Log("Loading top scene");
-                SceneManager.LoadScene(topScene);
+                Debug.Log("Loading cut scene");
+                SceneManager.LoadScene(cutScene);
             }
         }
     }

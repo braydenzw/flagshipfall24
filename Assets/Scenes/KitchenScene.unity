@@ -967,7 +967,7 @@ GameObject:
   - component: {fileID: 208529712}
   - component: {fileID: 208529715}
   - component: {fileID: 208529714}
-  - component: {fileID: 208529713}
+  - component: {fileID: 208529716}
   m_Layer: 0
   m_Name: CutSlot (3)
   m_TagString: Untagged
@@ -991,23 +991,6 @@ Transform:
   - {fileID: 908556897}
   m_Father: {fileID: 825936466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &208529713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208529711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb722e2ef264046de807295f772a9930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swapPizzaKey: 113
-  startGameKey: 101
-  cutScene: CutGame
-  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
-  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!61 &208529714
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1109,6 +1092,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &208529716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208529711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cfe045d7a84feab815cd3e0bf9b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapPizzaKey: 113
+  startGameKey: 101
+  cutScene: CutGame
+  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
+  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!1 &270943865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2272,7 +2272,7 @@ GameObject:
   - component: {fileID: 502408284}
   - component: {fileID: 502408287}
   - component: {fileID: 502408286}
-  - component: {fileID: 502408285}
+  - component: {fileID: 502408288}
   m_Layer: 0
   m_Name: CutSlot (2)
   m_TagString: Untagged
@@ -2296,23 +2296,6 @@ Transform:
   - {fileID: 2125831732}
   m_Father: {fileID: 825936466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &502408285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502408283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb722e2ef264046de807295f772a9930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swapPizzaKey: 113
-  startGameKey: 101
-  cutScene: CutGame
-  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
-  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!61 &502408286
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2414,6 +2397,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &502408288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502408283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cfe045d7a84feab815cd3e0bf9b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapPizzaKey: 113
+  startGameKey: 101
+  cutScene: CutGame
+  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
+  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5697,7 +5697,7 @@ GameObject:
   - component: {fileID: 1708192189}
   - component: {fileID: 1708192192}
   - component: {fileID: 1708192191}
-  - component: {fileID: 1708192190}
+  - component: {fileID: 1708192193}
   m_Layer: 0
   m_Name: CutSlot (1)
   m_TagString: Untagged
@@ -5721,23 +5721,6 @@ Transform:
   - {fileID: 1770831915}
   m_Father: {fileID: 825936466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1708192190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1708192188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb722e2ef264046de807295f772a9930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swapPizzaKey: 113
-  startGameKey: 101
-  cutScene: CutGame
-  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
-  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!61 &1708192191
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5839,6 +5822,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1708192193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708192188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cfe045d7a84feab815cd3e0bf9b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapPizzaKey: 113
+  startGameKey: 101
+  cutScene: CutGame
+  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
+  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!1 &1725666670
 GameObject:
   m_ObjectHideFlags: 0
@@ -5850,7 +5850,7 @@ GameObject:
   - component: {fileID: 1725666671}
   - component: {fileID: 1725666674}
   - component: {fileID: 1725666673}
-  - component: {fileID: 1725666672}
+  - component: {fileID: 1725666675}
   m_Layer: 0
   m_Name: CutSlot (4)
   m_TagString: Untagged
@@ -5874,23 +5874,6 @@ Transform:
   - {fileID: 1661586081}
   m_Father: {fileID: 825936466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1725666672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725666670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb722e2ef264046de807295f772a9930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swapPizzaKey: 113
-  startGameKey: 101
-  cutScene: CutGame
-  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
-  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!61 &1725666673
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5992,6 +5975,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1725666675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725666670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cfe045d7a84feab815cd3e0bf9b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapPizzaKey: 113
+  startGameKey: 101
+  cutScene: CutGame
+  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
+  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!1 &1770831914
 GameObject:
   m_ObjectHideFlags: 0
@@ -7164,7 +7164,7 @@ GameObject:
   - component: {fileID: 1989460419}
   - component: {fileID: 1989460422}
   - component: {fileID: 1989460421}
-  - component: {fileID: 1989460420}
+  - component: {fileID: 1989460423}
   m_Layer: 0
   m_Name: CutSlot
   m_TagString: Untagged
@@ -7188,23 +7188,6 @@ Transform:
   - {fileID: 338403307}
   m_Father: {fileID: 825936466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1989460420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989460418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb722e2ef264046de807295f772a9930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  swapPizzaKey: 113
-  startGameKey: 101
-  cutScene: CutGame
-  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
-  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!61 &1989460421
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7306,6 +7289,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1989460423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989460418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993cfe045d7a84feab815cd3e0bf9b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swapPizzaKey: 113
+  startGameKey: 101
+  cutScene: CutGame
+  triggered: {r: 0.9411765, g: 0.023529412, b: 0.039215688, a: 0.2}
+  untriggered: {r: 0, g: 0, b: 0, a: 0.2}
 --- !u!1 &1991189408
 GameObject:
   m_ObjectHideFlags: 0
