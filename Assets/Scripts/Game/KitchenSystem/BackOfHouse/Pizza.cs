@@ -17,7 +17,8 @@ using UnityEngine.Rendering;
 // Container to have consistent topping references
 public enum Topping {
     // TODO: create list of toppings
-    Pepperoni, Mushrooms, Sausage
+    Pepperoni,
+    Mushroom,
 }
 
 public enum CutType {
