@@ -9,10 +9,6 @@ using UnityEngine;
 *  And write to that loaded file when the game is 'saved'
 */
 
-
-// TODO: define save file system in project
-// probably look into Application.persistentDataPath
-
 // TODO: decide if we care about encrypting our save data???
 // realistically it probably shouldn't be a priority to stop cheating
 public static class GameSaveSystem {
@@ -26,8 +22,13 @@ public static class GameSaveSystem {
         if(saves == null) {
             saves = new Dictionary<SaveFile, string>();
             foreach(string file in Directory.GetFiles(saveFileDirectory)){
-                var s = JsonUtility.FromJson<SaveFile>(File.ReadAllText(file));
-                saves[s] = file;
+                if(file.EndsWith(".json")){
+                    string contents = File.ReadAllText(file);
+                    if(contents != ""){
+                        var s = JsonUtility.FromJson<SaveFile>(contents);
+                        saves[s] = file;
+                    }
+                }
             }
         }
         return saves;

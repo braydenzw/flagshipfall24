@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,7 @@ public class MainMenuScript : MonoBehaviour
         saveName.text = "";
 
         saves = GameSaveSystem.loadAllSaves();
-        continueButton.interactable = PlayerPrefs.HasKey("LastSave");
+        continueButton.interactable = PlayerPrefs.HasKey("LastSave") && File.Exists(PlayerPrefs.GetString("LastSave"));
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         var keyList = saves.Keys.ToList();

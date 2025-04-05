@@ -12,10 +12,8 @@ public static class Pricing
             // TODO: finalize topping prices
             case Topping.Pepperoni:
                 return 1.5f;
-            case Topping.Mushrooms:
+            case Topping.Mushroom:
                 return 1f;
-            case Topping.Sausage:
-                return 2f;
             default:
                 Debug.LogWarning("Could not find price for unrecognized topping.");
                 return 0;

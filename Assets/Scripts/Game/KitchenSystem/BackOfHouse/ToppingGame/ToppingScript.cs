@@ -13,6 +13,9 @@ public class ToppingScript : MonoBehaviour
     public Topping toppingType;
     void Start()
     {
+        // hide player sprite but it technically should still exist
+        GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(false);
+
         pizza = GameObject.Find("Pizza");
         pizzaLayer=1<<pizzaLayer;
         isHeld=true;

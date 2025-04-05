@@ -22,6 +22,7 @@ public class TopStation : MonoBehaviour
     public string topScene = "TopGame";
     public Color triggered = new Color(240f/255f, 6f/255f, 10f/255f, 0.2f);
     public Color untriggered = new Color(0f, 0f, 0f, 0.2f);
+    public string stationName = "TopStation";
     
     private bool interactable = false;
     private SpriteRenderer trigger;
@@ -40,6 +41,8 @@ public class TopStation : MonoBehaviour
         playerPizza = player.transform.GetChild(0).gameObject;
         pm = player.GetComponent<PlayerManager>();
         dm = GameObject.Find("DayManager").GetComponent<DayManager>();
+
+        pizza.SetActive(dm.pizzaExistsWithID(stationName));
     }
 
     void Update()
@@ -50,12 +53,12 @@ public class TopStation : MonoBehaviour
             if(Input.GetKeyDown(swapPizzaKey)){
                 if(playerPizza.activeSelf){
                     // move player pizza to table
-                    dm.swapGameObjPizza(playerPizza.GetInstanceID(), pizza.GetInstanceID());
+                    dm.swapGameObjPizza(DayManager.PLAYER_ID, stationName);
                     playerPizza.SetActive(false);
                     pizza.SetActive(true);
                 } else {
                     // claim pizza from table
-                    dm.swapGameObjPizza(pizza.GetInstanceID(), playerPizza.GetInstanceID());
+                    dm.swapGameObjPizza(stationName, DayManager.PLAYER_ID);
                     playerPizza.SetActive(true);
                     pizza.SetActive(false);
                 }

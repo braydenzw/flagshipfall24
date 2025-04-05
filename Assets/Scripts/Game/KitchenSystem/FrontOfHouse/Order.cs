@@ -41,6 +41,14 @@ public class Order {
         this.timePlaced = timePlaced;
         this.timeAllowed = timeAllowed;
     }
+    public Order(Order copy){
+        id = Guid.NewGuid().ToString();
+        customer = copy.customer;
+        price = copy.price;
+        expected = copy.expected;
+        timePlaced = copy.timePlaced;
+        timeAllowed = copy.timeAllowed;
+    }
 
     public string getID(){
         return id;
@@ -88,6 +96,9 @@ public class Order {
             + cutWeight * (0.5 * cutQuality + 0.5 * cutType)
             + timeWeight * timeScore));
         float tip = price * tipPercentage(score);
+
+        Debug.Log("TOTAL SCORE: " + score + " // TIP: " + tip);
+
         return new OrderResult(id, price, tip, score);
     }
     private float tipPercentage(int quality){

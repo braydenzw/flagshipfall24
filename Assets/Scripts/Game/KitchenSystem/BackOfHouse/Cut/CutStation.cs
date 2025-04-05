@@ -5,6 +5,9 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 //using static System.Net.Mime.MediaTypeNames;
 
 /*
@@ -25,11 +28,10 @@ using System;
 
 public class CutStation : MonoBehaviour
 {
-    const int pizzaCutSlots = 10; // TODO: define number of slots here, can be whatever you think is appropriate
-    private Pizza[] pizzas; // ordered list of pizza data objects
-    public DayManager dayManager; // needed for order submissions
+    private DayManager dayManager;
+    private string mainScene = "kitchenScene";
 
-
+    [Header("Game Vars")]
     public GameObject barSprite; 
     public float barSpeed = 20f; 
     public float screenPadding = 0.5f; 
@@ -37,85 +39,135 @@ public class CutStation : MonoBehaviour
     private float screenWidth;
     public int sliceCount = 4;
     public int clickAttempts = 4;
+    private bool gameRunning = true;
+    private int score = 0;
 
+    [Header("UI stuff")]
     public Text scoreDisplay;
-    public int score = 0;
+    public TMP_Text countdownTxt;
+    public float countdown = 3f;
 
-    SpriteRenderer spriteSettings;
-
+    [Header("Game End")]
+    public GameObject endGame;
+    public OrderUI real;
+    public OrderUI expected;
 
     void Start()
     {
-        
-        pizzas = new Pizza[pizzaCutSlots];
-        
+        GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(false);
+        dayManager = GameObject.Find("DayManager").GetComponent<DayManager>();
 
         screenWidth = Camera.main.orthographicSize * Camera.main.aspect * 2;
         scoreDisplay.enabled = true;
         scoreDisplay.text = "Score: " + score;
-        spriteSettings = GetComponent<SpriteRenderer>(); //I still can't get text to work, but this would display the score
-
     }
-
     
     void Update()
     {
-        if (barSprite != null)
-        {
-            // Move the bar to the right
-            barSprite.transform.Translate(Vector3.right * barSpeed * Time.deltaTime);
-
-            // Wrap around when the bar moves off the right side
-            if ((barSprite.transform.position.x > screenWidth / 2f + screenPadding) && sliceCount > 1)
+        if (countdown > 0f) {
+            countdownTxt.text = "" + Math.Ceiling(countdown);
+            countdown -= Time.deltaTime;
+        } else if(gameRunning) {
+            countdownTxt.text = "";
+            if (barSprite != null)
             {
-                barSprite.transform.position = new Vector3(-screenWidth / 2f - screenPadding,
-                    barSprite.transform.position.y,
-                    barSprite.transform.position.z);
-                barSpeed = barSpeed + 12f;
-                sliceCount--;
-            }
-            
-        }
-        if (Input.GetKeyDown(KeyCode.Space)) //Click space when moving bar is over square. You have 4 tries
-        {
+                // Move the bar to the right
+                barSprite.transform.Translate(Vector3.right * barSpeed * Time.deltaTime);
 
-            if (clickAttempts > 0)
-            {
-                float distance = Math.Abs(barSprite.transform.position.x - (screenWidth / 2f)) / (screenWidth / 2f);
-                score += ((int)(distance * 30)); //I made the scoring generous :)
-                if (score > 100)
+                // Wrap around when the bar moves off the right side
+                if ((barSprite.transform.position.x > screenWidth / 2f + screenPadding) && sliceCount > 1)
                 {
-                    score = 100;
+                    barSprite.transform.position = new Vector3(-screenWidth / 2f - screenPadding,
+                        barSprite.transform.position.y,
+                        barSprite.transform.position.z);
+                    barSpeed = barSpeed + 12f;
+                    sliceCount--;
+
+                    if(gameRunning && sliceCount <= 0) {
+                        barSprite = null;
+                        gameRunning = false;
+
+                        // show end of scene options to destroy pizza or submit it
+                        var playerOrder = dayManager.getUserOrder();
+                        var playerPizza = dayManager.getUserPizza();
+                        expected.setOrder(playerOrder, 0);
+                        var curr = new Order(playerOrder);
+                        curr.expected = playerPizza;
+                        real.setOrder(curr, 0);
+
+                        endGame.SetActive(true);
+                    }
+                }
+            }
+
+            if (sliceCount > 0 && Input.GetKeyDown(KeyCode.Space)) //Click space when moving bar is over square. You have 4 tries
+            {
+                if (clickAttempts > 0)
+                {
+                    float distance = Math.Abs(barSprite.transform.position.x - (screenWidth / 2f)) / (screenWidth / 2f);
+                    score += ((int)(distance * 30)); //I made the scoring generous :)
+                    if (score > 100)
+                    {
+                        score = 100;
+                    }
+                    scoreDisplay.text = "Score: " + score;
                 }
 
-            }
-            clickAttempts--;
-            if (clickAttempts == 3)
-            {
-                spriteSettings.color = new Color(1, 0, 0, 1);
-            }
-            if (clickAttempts == 2)
-            {
-                spriteSettings.color = new Color(0, 1, 0, 1);
-            }
-            if (clickAttempts == 1)
-            {
-                spriteSettings.color = new Color(0, 1, 1, 1);
-            }
-            if (clickAttempts == 0)
-            {
-                spriteSettings.color = new Color(0, 0, 1, 1);
+                clickAttempts--;
+
+                if(gameRunning && clickAttempts <= 0) {
+                    barSprite = null;
+                    gameRunning = false;
+
+                    // update cut value based on result
+                    dayManager.setCutValue(DayManager.PLAYER_ID, score);
+
+                    // show end of scene options to destroy pizza or submit it
+                    var playerOrder = dayManager.getUserOrder();
+                    var playerPizza = dayManager.getUserPizza();
+                    expected.setOrder(playerOrder, 0);
+                    var curr = new Order(playerOrder);
+                    curr.expected = playerPizza;
+                    real.setOrder(curr, 0);
+
+                    endGame.SetActive(true);
+                }
+
+                // if (clickAttempts == 3)
+                // {
+                //     spriteSettings.color = new Color(1, 0, 0, 1);
+                // }
+                // if (clickAttempts == 2)
+                // {
+                //     spriteSettings.color = new Color(0, 1, 0, 1);
+                // }
+                // if (clickAttempts == 1)
+                // {
+                //     spriteSettings.color = new Color(0, 1, 1, 1);
+                // }
+                // if (clickAttempts == 0)
+                // {
+                //     spriteSettings.color = new Color(0, 0, 1, 1);
+                // }
             }
         }
-        scoreDisplay.text = "Score: " + score;
+    }
+
+    public void destroyPizza() {
+        // clean up memory stored by dayManager
+        dayManager.destroyPizza(DayManager.PLAYER_ID);
+
+        GameObject.Find("Player").transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
+        SceneManager.LoadScene(mainScene);
+    }
+
+    public void submitPizza() {
+        // clean up dayManager, but submit order as well
+        dayManager.submitOrder(DayManager.PLAYER_ID);
+
+        GameObject.Find("Player").transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
+        SceneManager.LoadScene(mainScene);
     }
 }
-    // TODO: something handling user interaction
-    // TODO: something handling placement of pizza object (put down and pick up)
-    // TODO: something handling actual mini-game
-    // mini-game should reference some index in pizzas array to update Pizza class
-    // TODO: something handling submission of pizza object (should reference DayManager function)
-
-
-
-

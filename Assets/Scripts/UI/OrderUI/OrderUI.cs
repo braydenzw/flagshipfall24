@@ -27,7 +27,7 @@ public class OrderUI : MonoBehaviour, IPointerClickHandler
         priceText.text = "<b>Price</b>: " + order.price;
         timeText.text = strTimeTilDue();
         orderText.text = "----------\n<b>Cook:</b> " + order.expected.cookLevel + "/100\n"
-            + "<b>Cut</b>: " + order.expected.cutType + "\n"
+            + "<b>Cut</b>: " + order.expected.cutQuality + "/100\n"
             + "<b>Toppings</b>: " + order.toppingString();
     }
 

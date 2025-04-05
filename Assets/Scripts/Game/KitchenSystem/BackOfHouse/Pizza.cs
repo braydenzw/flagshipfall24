@@ -57,7 +57,7 @@ public class Pizza {
         cutType = CutType.None; // un cut
     }
     
-    // TODO: some way to add toppings
-    // TODO: some way to update cookLevel
-    // TODO: some way to update cut quality
+    override public string ToString() {
+        return tossQuality + " toss, " + toppings + " toppings," + cookLevel + " cook," + cutQuality + " cut.";
+    }
 }

@@ -11,8 +11,10 @@ using UnityEngine.SceneManagement;
 
 public class TossGameManager : MonoBehaviour
 {
+    public bool debugMode = true;
+
     // consts
-    private const string mainScene = "TestEnviroment"; // TODO: update this when we have a real scene
+    public string mainScene = "KitchenScene";
     private const float baseSpeed = 7f;
     private const float penalty = 5f; // quality decrease per failure
     private const KeyCode orderUIKey = KeyCode.E;
@@ -59,6 +61,11 @@ public class TossGameManager : MonoBehaviour
             GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
             SceneManager.LoadScene(mainScene);
         }
+
+        // TODO: REMOVE, THIS IS FOR DEBUGGING ONLY
+        if(debugMode && Input.GetKeyDown(KeyCode.P)){
+            tossComplete();
+        }
     }
 
     public void tossFail(){
@@ -81,7 +88,7 @@ public class TossGameManager : MonoBehaviour
         if(gameEnded) {
             var playerPizza = GameObject.Find("Player").transform.GetChild(0).GetChild(0).gameObject;
             dayManager.assignPizzaToOrder(created, o);
-            dayManager.assignGameObjToPizza(playerPizza.GetInstanceID(), created);
+            dayManager.assignGameObjToPizza(DayManager.PLAYER_ID, created);
             
             playerPizza.SetActive(true);
             GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
