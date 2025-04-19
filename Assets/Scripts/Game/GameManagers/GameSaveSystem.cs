@@ -18,6 +18,7 @@ public static class GameSaveSystem {
     private static string currentSaveFile = null;
 
     public static Dictionary<SaveFile, string> loadAllSaves(){
+        Debug.Log(saveFileDirectory);
         // partial load of relevant data to saves
         if(saves == null) {
             saves = new Dictionary<SaveFile, string>();

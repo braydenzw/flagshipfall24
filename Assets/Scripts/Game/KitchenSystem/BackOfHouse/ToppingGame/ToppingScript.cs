@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,6 +10,8 @@ public class ToppingScript : MonoBehaviour
     bool isHeld;
     
     public GameObject pizza;
+    public Sprite Pepperoni;
+    public Sprite Mushroom;
     
     public Topping toppingType;
     void Start()
@@ -23,10 +26,11 @@ public class ToppingScript : MonoBehaviour
         {
             // This is where you assign the color of each topping type
             case Topping.Pepperoni:
-                this.GetComponent<SpriteRenderer>().color=Color.red;
+                Debug.Log("pep");
+                this.GetComponent<SpriteRenderer>().sprite = Pepperoni;
                 break;
             case Topping.Mushroom:
-                this.GetComponent<SpriteRenderer>().color=Color.black;
+                this.GetComponent<SpriteRenderer>().sprite = Mushroom;
                 break;
         }
     }
