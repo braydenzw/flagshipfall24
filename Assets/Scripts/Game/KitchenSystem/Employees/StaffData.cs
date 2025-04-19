@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 /*
 * This class should contain all data that should be saveable of the staff
@@ -22,18 +23,22 @@ public class StaffData {
     // list of generated prospects? 
 
     public List<Employee> employees;
-    public Dictionary<int, Station> stationAssignments;
-    public Dictionary<int, double> employeePayment;
+    public Dictionary<string, Station> stationAssignments;
+    public Dictionary<string, double> employeePayment;
 
     public StaffData(){
         employees = new List<Employee>();
-        stationAssignments = new Dictionary<int, Station>();
-        employeePayment = new Dictionary<int, double>();
+        stationAssignments = new Dictionary<string, Station>();
+        employeePayment = new Dictionary<string, double>();
     }
 
-    public StaffData(List<Employee> employees, Dictionary<int, Station> stationAssignments, Dictionary<int, double> employeePayment){
+    public StaffData(List<Employee> employees, Dictionary<string, Station> stationAssignments, Dictionary<string, double> employeePayment){
         this.employees = employees;
         this.stationAssignments = stationAssignments;
         this.employeePayment = employeePayment;
+    }
+
+    public Employee getEmployeeByID(string id){
+        return employees.FirstOrDefault(e => e.getID() == id);
     }
 }

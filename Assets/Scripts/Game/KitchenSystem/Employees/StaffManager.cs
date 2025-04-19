@@ -22,6 +22,8 @@ public class StaffManager {
         }
     }
 
+    public StaffData getStaffData() { return staffData; }
+
     // TODO: some function to change station assignment
     // TODO: some function to fire employee
     // TODO: some function to hire employee

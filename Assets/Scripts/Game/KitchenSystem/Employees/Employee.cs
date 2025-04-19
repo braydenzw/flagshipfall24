@@ -26,4 +26,6 @@ public class Employee {
     public Employee(){
 
     }
+
+    public string getID() { return id; }
 }

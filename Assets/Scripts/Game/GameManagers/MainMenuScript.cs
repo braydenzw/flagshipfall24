@@ -60,6 +60,11 @@ public class MainMenuScript : MonoBehaviour
         saveCreator.SetActive(!saveCreator.activeSelf);
     }
 
+    // toggle credits page
+    public void toggleCreditsPage() {
+        
+    }
+
     // create new save
     public void createSave(){
         string name = saveName.text;
