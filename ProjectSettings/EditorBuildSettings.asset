@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DayRecap.unity
     guid: bc2531717d3b048ee8b80f02f82e39bc
+  - enabled: 1
+    path: Assets/Scenes/Oven.unity
+    guid: e4be65fd5a0926f4abdc4bb58181f2b8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

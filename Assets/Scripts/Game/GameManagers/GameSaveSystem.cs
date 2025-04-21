@@ -19,6 +19,10 @@ public static class GameSaveSystem {
 
     public static Dictionary<SaveFile, string> loadAllSaves(){
         Debug.Log(saveFileDirectory);
+        if (!Directory.Exists(saveFileDirectory)) //trying to fix save file thing
+        {
+            Directory.CreateDirectory(saveFileDirectory);
+        }
         // partial load of relevant data to saves
         if(saves == null) {
             saves = new Dictionary<SaveFile, string>();

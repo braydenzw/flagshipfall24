@@ -50,14 +50,20 @@ public class TossGameManager : MonoBehaviour
             if(!dough.tossStarted()) {
                 dough.beginGame(maxSpeed, tossLevel);
                 gameActive = true;
+          
             } else {
                 dough.continueGame();
             }
         }
-        if(!gameActive && !gameEnded && !dough.tossStarted() && Input.GetKeyDown(orderUIKey)){
+        if(!gameActive && !gameEnded && dough.tossStarted() && Input.GetKeyDown(orderUIKey)){
+            Debug.Log("pressed E");
             orderUI.SetActive(!orderUI.activeSelf);
         }
-        if(!gameEnded && Input.GetKeyDown(KeyCode.Q)){
+        else if (Input.GetKeyDown(orderUIKey))
+        {
+            Debug.Log($"Conditions: gameActive={gameActive}, gameEnded={gameEnded}, dough.tossStarted()={dough.tossStarted()}");
+        }
+        if (!gameEnded && Input.GetKeyDown(KeyCode.Q)){
             GameObject.Find("Player").transform.GetChild(0).gameObject.SetActive(true);
             SceneManager.LoadScene(mainScene);
         }
