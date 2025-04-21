@@ -55,7 +55,7 @@ public class TossGameManager : MonoBehaviour
                 dough.continueGame();
             }
         }
-        if(!gameActive && !gameEnded && dough.tossStarted() && Input.GetKeyDown(orderUIKey)){
+        if(!gameActive && !gameEnded && !dough.tossStarted() && Input.GetKeyDown(orderUIKey)){
             Debug.Log("pressed E");
             orderUI.SetActive(!orderUI.activeSelf);
         }
